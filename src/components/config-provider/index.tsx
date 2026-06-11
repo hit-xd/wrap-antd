@@ -20,7 +20,11 @@ const mergeTheme = (theme?: ThemeConfig): ThemeConfig => ({
   },
 });
 
-export function ConfigProvider({ children, theme, ...props }: PropsWithChildren<ConfigProviderProps>) {
+export function ConfigProvider({
+  children,
+  theme,
+  ...props
+}: PropsWithChildren<ConfigProviderProps>) {
   return (
     <AntdConfigProvider
       {...props}

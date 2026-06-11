@@ -23,6 +23,10 @@
 - `pnpm typecheck` 执行 TypeScript 类型检查。
 - `pnpm test` 运行 Vitest。
 - `pnpm lint` 执行 ESLint。
+- `pnpm format:check` 校验 Prettier 格式。
+- `pnpm fix` 自动执行 ESLint fix 和 Prettier 格式化。
+- `pnpm check` 串联规范生成一致性、格式、lint、类型检查和测试。
+- `pnpm run ci` 运行完整 CI 校验，包括库构建和文档构建。
 
 发布或提交 PR 前至少运行 `pnpm build`、`pnpm typecheck`、`pnpm test`。
 

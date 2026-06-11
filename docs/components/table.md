@@ -18,7 +18,9 @@ const columns = [
   {
     title: '状态',
     dataIndex: 'status',
-    render: (status: string) => <Tag color={status === 'online' ? 'success' : 'default'}>{status}</Tag>,
+    render: (status: string) => (
+      <Tag color={status === 'online' ? 'success' : 'default'}>{status}</Tag>
+    ),
   },
 ];
 

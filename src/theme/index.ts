@@ -11,8 +11,10 @@ export interface EnterpriseThemeOptions {
 }
 
 export const createEnterpriseTheme = (options: EnterpriseThemeOptions = {}): ThemeConfig => {
-  const { primaryColor = globalDesignTokens.color.brand[7], borderRadius = globalDesignTokens.radius.sm } =
-    options;
+  const {
+    primaryColor = globalDesignTokens.color.brand[7],
+    borderRadius = globalDesignTokens.radius.sm,
+  } = options;
   const generatedTheme = createGeneratedAntdTheme(globalDesignTokens);
 
   return {

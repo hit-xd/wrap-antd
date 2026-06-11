@@ -44,6 +44,8 @@ pnpm docs:dev
 pnpm build
 pnpm typecheck
 pnpm test
+pnpm check
+pnpm run ci
 ```
 
 ## Documentation

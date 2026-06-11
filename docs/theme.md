@@ -9,14 +9,14 @@ order: 2
 
 当前主题已从 `ui-spec/` 提取以下设计规范：
 
-| 规范文件 | 落地方式 |
-| --- | --- |
-| `color.md` | 品牌金、中性色、功能色、数据色 |
-| `ContainerSpec.md` | 圆角、阴影、容器边框与背景 |
-| `Space.md` | 4px 间距体系、20px 栅格 gutter |
-| `Typography.md` | 字体族、正文字号、行高、字重 |
-| `Layout.md` | Header、Sider、内容区尺寸 token |
-| `ImageRatio.md` | 常用图片比例 token 与 CSS 变量 |
+| 规范文件           | 落地方式                        |
+| ------------------ | ------------------------------- |
+| `color.md`         | 品牌金、中性色、功能色、数据色  |
+| `ContainerSpec.md` | 圆角、阴影、容器边框与背景      |
+| `Space.md`         | 4px 间距体系、20px 栅格 gutter  |
+| `Typography.md`    | 字体族、正文字号、行高、字重    |
+| `Layout.md`        | Header、Sider、内容区尺寸 token |
+| `ImageRatio.md`    | 常用图片比例 token 与 CSS 变量  |
 
 ## 内置 token
 

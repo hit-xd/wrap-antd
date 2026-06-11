@@ -24,7 +24,12 @@ export default () => {
         <Button type="primary" onClick={() => setOpen(true)}>
           打开确认弹窗
         </Button>
-        <Modal title="确认发布" open={open} onOk={() => setOpen(false)} onCancel={() => setOpen(false)}>
+        <Modal
+          title="确认发布"
+          open={open}
+          onOk={() => setOpen(false)}
+          onCancel={() => setOpen(false)}
+        >
           发布后配置将同步到生产环境。
         </Modal>
       </Space>

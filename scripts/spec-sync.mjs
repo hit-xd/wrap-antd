@@ -38,24 +38,35 @@ const brandEntries = matchAll(colorSpec, /\|\s*Brand\s+(\d+)\s*\|\s*`(#[0-9a-fA-
   m[2].toUpperCase(),
 ]);
 
-const functionalHex = matchAll(extractSection(colorSpec, 'Functional'), /`(#[0-9a-fA-F]{6})`/g, (m) =>
-  m[1].toUpperCase(),
+const functionalHex = matchAll(
+  extractSection(colorSpec, 'Functional'),
+  /`(#[0-9a-fA-F]{6})`/g,
+  (m) => m[1].toUpperCase(),
 );
 const dataColors = matchAll(extractSection(colorSpec, 'Data'), /`(rgba\([^)]+\))`/g, (m) => m[1]);
-const gradientColors = matchAll(extractSection(colorSpec, 'Gradient'), /`(linear-gradient\([^)]+\))`/g, (m) => m[1]);
+const gradientColors = matchAll(
+  extractSection(colorSpec, 'Gradient'),
+  /`(linear-gradient\([^)]+\))`/g,
+  (m) => m[1],
+);
 
 const boxShadows = matchAll(containerSpec, /box-shadow:\s*([^;]+);/g, (m) => m[1].trim());
-const radii = unique(matchAll(containerSpec, /border-radius:\s*(\d+)px/g, (m) => Number(m[1]))).sort(
-  (a, b) => a - b,
-);
-const spaceValues = unique(matchAll(extractSection(spaceSpec, 'Spacing'), /`(\d+)px`/g, (m) => Number(m[1]))).sort(
-  (a, b) => a - b,
-);
+const radii = unique(
+  matchAll(containerSpec, /border-radius:\s*(\d+)px/g, (m) => Number(m[1])),
+).sort((a, b) => a - b);
+const spaceValues = unique(
+  matchAll(extractSection(spaceSpec, 'Spacing'), /`(\d+)px`/g, (m) => Number(m[1])),
+).sort((a, b) => a - b);
 const layoutTokens = Object.fromEntries(
   matchAll(layoutSpec, /\|\s*`(--[a-z0-9-]+)`\s*\|\s*`([^`]+)`/gi, (m) => [m[1], m[2]]),
 );
-const ratios = unique(matchAll(imageRatioSpec, /aspect-ratio:\s*(\d+\s*\/\s*\d+)/g, (m) => m[1].replace(/\s+/g, ' ')));
-const fontFamily = typographySpec.match(/font-family:\s*([^;]+);/s)?.[1].replace(/\s+/g, ' ').trim();
+const ratios = unique(
+  matchAll(imageRatioSpec, /aspect-ratio:\s*(\d+\s*\/\s*\d+)/g, (m) => m[1].replace(/\s+/g, ' ')),
+);
+const fontFamily = typographySpec
+  .match(/font-family:\s*([^;]+);/s)?.[1]
+  .replace(/\s+/g, ' ')
+  .trim();
 
 const tokens = {
   color: {
@@ -148,12 +159,24 @@ const tokens = {
   },
 };
 
-const componentNames = ['Button', 'Form', 'Table', 'Input', 'Select', 'DatePicker', 'Modal', 'Alert', 'Card', 'Layout'];
+const componentNames = [
+  'Button',
+  'Form',
+  'Table',
+  'Input',
+  'Select',
+  'DatePicker',
+  'Modal',
+  'Alert',
+  'Card',
+  'Layout',
+];
 const lowConfidence = [];
 
 if (brandEntries.length < 10) lowConfidence.push('color.md: expected Brand 1-10 rows.');
 if (functionalHex.length < 4) lowConfidence.push('color.md: expected 4 functional colors.');
-if (boxShadows.length < 4) lowConfidence.push('ContainerSpec.md: expected 4 box-shadow code blocks.');
+if (boxShadows.length < 4)
+  lowConfidence.push('ContainerSpec.md: expected 4 box-shadow code blocks.');
 if (radii.length < 5) lowConfidence.push('ContainerSpec.md: expected 5 radius values.');
 if (ratios.length < 5) lowConfidence.push('ImageRatio.md: expected 5 aspect-ratio values.');
 
@@ -222,13 +245,19 @@ addFile(
 
 addFile(
   'docs/generated/design-tokens.md',
-  `---\ntitle: 设计 Token\norder: 100\n---\n\n# 设计 Token\n\n本页由 \`pnpm spec:sync\` 根据 \`ui-spec/\` 自动生成。\n\n## 品牌色\n\n| Token | Value |\n| --- | --- |\n${Object.entries(tokens.color.brand)
+  `---\ntitle: 设计 Token\norder: 100\n---\n\n# 设计 Token\n\n本页由 \`pnpm spec:sync\` 根据 \`ui-spec/\` 自动生成。\n\n## 品牌色\n\n| Token | Value |\n| --- | --- |\n${Object.entries(
+    tokens.color.brand,
+  )
     .map(([key, value]) => `| Brand ${key} | \`${value}\` |`)
-    .join('\n')}\n\n## 功能色\n\n| Token | Value |\n| --- | --- |\n${Object.entries(tokens.color.functional)
+    .join('\n')}\n\n## 功能色\n\n| Token | Value |\n| --- | --- |\n${Object.entries(
+    tokens.color.functional,
+  )
     .map(([key, value]) => `| ${key} | \`${value}\` |`)
     .join('\n')}\n\n## 圆角\n\n| Token | Value |\n| --- | --- |\n${Object.entries(tokens.radius)
     .map(([key, value]) => `| ${key} | \`${value}px\` |`)
-    .join('\n')}\n\n## 图片比例\n\n| Token | Value |\n| --- | --- |\n${Object.entries(tokens.imageRatio)
+    .join('\n')}\n\n## 图片比例\n\n| Token | Value |\n| --- | --- |\n${Object.entries(
+    tokens.imageRatio,
+  )
     .map(([key, value]) => `| ${key} | \`${value}\` |`)
     .join('\n')}\n`,
 );
@@ -265,7 +294,9 @@ const writeOrCheck = () => {
     return;
   }
 
-  console.log(isCheck ? 'ui-spec generated files are up to date.' : 'ui-spec generated files synced.');
+  console.log(
+    isCheck ? 'ui-spec generated files are up to date.' : 'ui-spec generated files synced.',
+  );
 };
 
 writeOrCheck();

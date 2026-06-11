@@ -15,7 +15,11 @@ import { Button, ConfigProvider, Form, Input, Select, Space } from 'wrap-antd';
 export default () => (
   <ConfigProvider>
     <Form layout="vertical" style={{ maxWidth: 420 }}>
-      <Form.Item label="应用名称" name="name" rules={[{ required: true, message: '请输入应用名称' }]}>
+      <Form.Item
+        label="应用名称"
+        name="name"
+        rules={[{ required: true, message: '请输入应用名称' }]}
+      >
         <Input placeholder="请输入" />
       </Form.Item>
       <Form.Item label="业务类型" name="type">
