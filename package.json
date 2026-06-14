@@ -25,12 +25,10 @@
       "import": "./dist/business/index.js",
       "require": "./dist/business/index.cjs"
     },
-    "./reset.css": "./src/reset.css"
+    "./reset.css": "./dist/index.css"
   },
   "files": [
     "dist",
-    "src/reset.css",
-    "src/theme/*.generated.css",
     "README.md"
   ],
   "scripts": {

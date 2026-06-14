@@ -1,0 +1,13 @@
+/* ==========================================================================
+ * Descriptions 描述列表 — 组件样式覆盖
+ * 参考规范：ui-spec/components/AntdDescriptions.md
+ * ========================================================================== */
+
+/* ── 标签与内容 ────────────────────────────────────────────────────────── */
+.ant-descriptions .ant-descriptions-item-label {
+  color: var(--wplus-color-text-body);
+}
+
+.ant-descriptions .ant-descriptions-item-content {
+  color: var(--wplus-color-text-heading);
+}

@@ -1,0 +1,11 @@
+/* ==========================================================================
+ * Upload 上传 — 组件样式覆盖
+ * 参考规范：ui-spec/components/AntdUpload.md
+ * ========================================================================== */
+
+/* ── 拖拽区 ────────────────────────────────────────────────────────────── */
+.ant-upload-wrapper .ant-upload-drag {
+  border-color: var(--wplus-color-border-strong);
+  border-radius: var(--wplus-radius-xs);
+  background: var(--wplus-color-bg-container);
+}

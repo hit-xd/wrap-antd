@@ -1,0 +1,25 @@
+/* ==========================================================================
+ * Collapse 折叠面板 — 组件样式覆盖
+ * 参考规范：ui-spec/components/AntdCollapse.md
+ * ========================================================================== */
+
+/* ── 边框与圆角 ────────────────────────────────────────────────────────── */
+.ant-collapse {
+  border-color: #e5e6eb;
+  border-radius: var(--wplus-radius-xs);
+}
+
+.ant-collapse > .ant-collapse-item {
+  border-bottom-color: #e5e6eb;
+}
+
+/* ── 面板标题 ──────────────────────────────────────────────────────────── */
+.ant-collapse .ant-collapse-header {
+  color: var(--wplus-color-text-heading);
+  font-size: var(--wplus-font-size-base);
+}
+
+.ant-collapse .ant-collapse-content {
+  color: var(--wplus-color-text-body);
+  border-top-color: #e5e6eb;
+}

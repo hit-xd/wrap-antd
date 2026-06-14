@@ -1,0 +1,133 @@
+/* ==========================================================================
+ * W+ Design System — CSS Custom Properties
+ * 从 src/theme/tokens/ 提取，供组件 CSS 文件统一引用。
+ * 禁止在此文件中使用硬编码色值（与 JS Token 保持同步）。
+ * ========================================================================== */
+
+:root {
+  /* ── 品牌色阶 ──────────────────────────────────────────────────────────── */
+  --wplus-brand-1: #fffcf0;
+  --wplus-brand-2: #f7f4e9;
+  --wplus-brand-3: #dfcfb4;
+  --wplus-brand-5: #d1bb8e;
+  --wplus-brand-6: #c5a267;
+  --wplus-brand-7: #b0915c;
+
+  /* ── 语义色：主色 ──────────────────────────────────────────────────────── */
+  --wplus-color-primary: var(--wplus-brand-6);
+  --wplus-color-primary-hover: var(--wplus-brand-5);
+  --wplus-color-primary-active: var(--wplus-brand-7);
+
+  /* ── 按钮专用色 ────────────────────────────────────────────────────────── */
+  --wplus-color-button-primary: #9b7235;
+  --wplus-color-button-primary-hover: #b8873b;
+  --wplus-color-button-primary-active: #7f5a29;
+  --wplus-color-button-secondary-gold: var(--wplus-brand-6);
+
+  /* ── 链接色 ────────────────────────────────────────────────────────────── */
+  --wplus-color-link: #1874ff;
+  --wplus-color-link-hover: #4096ff;
+  --wplus-color-link-active: #0958d9;
+
+  /* ── 功能色 ────────────────────────────────────────────────────────────── */
+  --wplus-color-success: #00c078;
+  --wplus-color-warning: #ffa000;
+  --wplus-color-error: #ff4d4f;
+  --wplus-color-info: var(--wplus-color-link);
+
+  /* ── 文字色（透明度阶梯） ──────────────────────────────────────────────── */
+  --wplus-color-text-heading: rgba(0, 0, 0, 0.85);
+  --wplus-color-text-body: rgba(0, 0, 0, 0.65);
+  --wplus-color-text-secondary: rgba(0, 0, 0, 0.45);
+  --wplus-color-text-disabled: rgba(0, 0, 0, 0.25);
+  --wplus-color-text-inverse: #ffffff;
+
+  /* ── 背景色 ────────────────────────────────────────────────────────────── */
+  --wplus-color-bg-page: #e8eaf2;
+  --wplus-color-bg-container: #ffffff;
+  --wplus-color-bg-module: #f4f6f8;
+  --wplus-color-bg-table-header: #f1f2f7;
+  --wplus-color-bg-mask: rgba(0, 0, 0, 0.3);
+  --wplus-color-bg-mask-drawer: rgba(0, 0, 0, 0.45);
+  --wplus-color-bg-spotlight: rgba(0, 0, 0, 0.75);
+  --wplus-color-bg-success: #ebfaf5;
+  --wplus-color-bg-error: #fff1f0;
+  --wplus-color-bg-info: #e6f7ff;
+  --wplus-color-bg-warning: #fffbe6;
+  --wplus-color-bg-brand: var(--wplus-brand-1);
+
+  /* ── 导航专用色 ────────────────────────────────────────────────────────── */
+  --wplus-color-nav-top-bg: #0c0c18;
+  --wplus-color-nav-top-text: rgba(255, 255, 255, 0.65);
+  --wplus-color-nav-top-text-selected: #ffebae;
+  --wplus-color-nav-side-text: rgba(0, 0, 0, 0.65);
+  --wplus-color-nav-side-text-hover: #9b7235;
+  --wplus-color-nav-side-text-selected: #9b7235;
+  --wplus-color-nav-side-bg-selected: #fffcf0;
+  --wplus-color-nav-side-indicator: #9b7235;
+
+  /* ── 边框 / 分割线 ─────────────────────────────────────────────────────── */
+  --wplus-color-border: rgba(0, 0, 0, 0.15);
+  --wplus-color-border-strong: rgba(0, 0, 0, 0.25);
+  --wplus-color-split: rgba(0, 0, 0, 0.12);
+  --wplus-color-split-light: #f0f0f0;
+  --wplus-color-split-footer: #e8e8e8;
+
+  /* ── 圆角 ──────────────────────────────────────────────────────────────── */
+  --wplus-radius-xs: 2px;
+  --wplus-radius-sm: 4px;
+  --wplus-radius-md: 6px;
+  --wplus-radius-lg: 8px;
+  --wplus-radius-round: 999px;
+
+  /* ── 间距（4px 基数） ──────────────────────────────────────────────────── */
+  --wplus-space-xs: 4px;
+  --wplus-space-sm: 8px;
+  --wplus-space-md: 12px;
+  --wplus-space-lg: 16px;
+  --wplus-space-xl: 20px;
+  --wplus-space-xxl: 24px;
+  --wplus-space-xxxl: 30px;
+
+  /* ── 阴影 ──────────────────────────────────────────────────────────────── */
+  --wplus-shadow-hover: 0px 3px 6px 0px rgba(0, 0, 0, 0.12),
+    0px 1px 2px -2px rgba(0, 0, 0, 0.16),
+    0px 5px 12px 4px rgba(0, 0, 0, 0.09);
+  --wplus-shadow-default: 0px 9px 28px 8px rgba(0, 0, 0, 0.05),
+    0px 6px 16px 0px rgba(0, 0, 0, 0.08),
+    0px 3px 6px -4px rgba(0, 0, 0, 0.12);
+  --wplus-shadow-modal: 0px 12px 48px 16px rgba(0, 0, 0, 0.03),
+    0px 9px 28px 0px rgba(0, 0, 0, 0.05),
+    0px 6px 16px -8px rgba(0, 0, 0, 0.08);
+  --wplus-shadow-tooltip: 0px 9px 28px 8px rgba(0, 0, 0, 0.05),
+    0px 6px 16px 0px rgba(0, 0, 0, 0.08),
+    0px 3px 7px -4px rgba(0, 0, 0, 0.12);
+  --wplus-shadow-header: 0 12px 36px rgba(15, 31, 53, 0.18);
+
+  /* ── 布局尺寸 ──────────────────────────────────────────────────────────── */
+  --wplus-header-height: 64px;
+  --wplus-sidebar-width: 208px;
+
+  /* ── 控件高度 ──────────────────────────────────────────────────────────── */
+  --wplus-control-height: 32px;
+  --wplus-control-height-sm: 24px;
+  --wplus-control-height-lg: 40px;
+
+  /* ── 字体 ──────────────────────────────────────────────────────────────── */
+  --wplus-font-family: "Helvetica Neue", Helvetica, "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  --wplus-font-size-base: 14px;
+  --wplus-font-size-sm: 12px;
+  --wplus-font-size-lg: 16px;
+  --wplus-font-size-xl: 20px;
+
+  /* ── 行高 ──────────────────────────────────────────────────────────────── */
+  --wplus-line-height-base: 1.5714285714285714; /* 22/14 */
+  --wplus-line-height-lg: 1.5; /* 24/16 */
+
+  /* ── 动画 ──────────────────────────────────────────────────────────────── */
+  --wplus-transition-fast: 0.1s ease;
+  --wplus-transition-normal: 0.2s ease;
+  --wplus-transition-slow: 0.3s ease;
+  --wplus-easing-enter: cubic-bezier(0.34, 0.69, 0.1, 1);
+}

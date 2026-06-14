@@ -1,0 +1,15 @@
+/* ==========================================================================
+ * Popover 气泡卡片 — 组件样式覆盖
+ * 参考规范：ui-spec/components/AntdPopover.md
+ * ========================================================================== */
+
+/* ── 容器 ──────────────────────────────────────────────────────────────── */
+.ant-popover .ant-popover-inner {
+  border-radius: var(--wplus-radius-sm);
+  box-shadow: var(--wplus-shadow-tooltip);
+}
+
+/* ── 标题分隔线 ────────────────────────────────────────────────────────── */
+.ant-popover .ant-popover-title {
+  border-bottom: 1px solid var(--wplus-color-border);
+}

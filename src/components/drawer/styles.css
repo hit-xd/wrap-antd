@@ -1,0 +1,41 @@
+/* ==========================================================================
+ * Drawer 抽屉 — 组件样式覆盖
+ * 参考规范：ui-spec/components/AntdDrawer.md
+ * ========================================================================== */
+
+/* ── 标题栏 ────────────────────────────────────────────────────────────── */
+.ant-drawer .ant-drawer-header {
+  min-height: 56px;
+  padding: var(--wplus-space-lg) var(--wplus-space-xxl);
+  border-bottom: 0;
+}
+
+.ant-drawer .ant-drawer-title {
+  color: var(--wplus-color-text-heading);
+  font-size: var(--wplus-font-size-lg);
+  font-weight: 600;
+  line-height: var(--wplus-line-height-lg);
+}
+
+.ant-drawer .ant-drawer-close {
+  color: var(--wplus-color-text-body);
+}
+
+/* ── 内容区 ────────────────────────────────────────────────────────────── */
+.ant-drawer .ant-drawer-body {
+  padding: var(--wplus-space-xxl);
+  color: var(--wplus-color-text-body);
+  font-size: var(--wplus-font-size-base);
+  line-height: 22px;
+}
+
+/* ── 底部操作区 ────────────────────────────────────────────────────────── */
+.ant-drawer .ant-drawer-footer {
+  padding: 10px var(--wplus-space-xxl);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* ── 遮罩层 ────────────────────────────────────────────────────────────── */
+.ant-drawer-mask {
+  background: var(--wplus-color-bg-mask-drawer);
+}

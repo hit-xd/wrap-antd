@@ -1,3 +1,5 @@
+import './styles.css';
+
 import { Modal as AntdModal } from 'antd';
 import type { ModalProps as AntdModalProps } from 'antd';
 

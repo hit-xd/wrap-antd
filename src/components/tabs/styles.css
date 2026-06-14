@@ -1,0 +1,41 @@
+/* ==========================================================================
+ * Tabs 标签页 — 组件样式覆盖
+ * 参考规范：ui-spec/components/tabs.md
+ * ========================================================================== */
+
+/* ── 导航底线 ──────────────────────────────────────────────────────────── */
+.ant-tabs .ant-tabs-nav::before {
+  border-bottom-color: var(--wplus-color-border);
+}
+
+/* ── 标签项 ────────────────────────────────────────────────────────────── */
+.ant-tabs .ant-tabs-tab {
+  color: var(--wplus-color-text-body);
+  font-size: var(--wplus-font-size-base);
+}
+
+.ant-tabs .ant-tabs-tab:hover {
+  color: var(--wplus-color-button-primary);
+}
+
+.ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: var(--wplus-color-button-primary);
+}
+
+/* ── ink bar ───────────────────────────────────────────────────────────── */
+.ant-tabs .ant-tabs-ink-bar {
+  background: var(--wplus-color-button-primary);
+}
+
+/* ── 卡片式 Tab ────────────────────────────────────────────────────────── */
+.ant-tabs-card > .ant-tabs-nav .ant-tabs-tab {
+  background: var(--wplus-color-bg-module);
+  border-color: var(--wplus-color-border);
+}
+
+.ant-tabs-card
+  > .ant-tabs-nav
+  .ant-tabs-tab-active {
+  background: var(--wplus-color-bg-container);
+  border-bottom-color: var(--wplus-color-bg-container);
+}

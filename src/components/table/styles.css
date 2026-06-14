@@ -1,0 +1,38 @@
+/* ==========================================================================
+ * Table 表格 — 组件样式覆盖
+ * 参考规范：ui-spec/components/PrivateTable.md
+ * ========================================================================== */
+
+/* ── 表头 ──────────────────────────────────────────────────────────────── */
+.ant-table-thead > tr > th {
+  background: var(--wplus-color-bg-table-header);
+  color: var(--wplus-color-text-heading);
+  font-weight: 600;
+}
+
+/* ── 单元格 ────────────────────────────────────────────────────────────── */
+.ant-table-tbody > tr > td {
+  color: var(--wplus-color-text-body);
+}
+
+/* ── 行 hover ──────────────────────────────────────────────────────────── */
+.ant-table-tbody > tr.ant-table-row:hover > td {
+  background: var(--wplus-color-bg-module);
+}
+
+/* ── 紧凑模式：表头 34px / 行高 34px ───────────────────────────────────── */
+.ant-table-wrapper
+  .ant-table.ant-table-small
+  .ant-table-thead
+  > tr
+  > th {
+  padding: 8px var(--wplus-space-lg);
+}
+
+.ant-table-wrapper
+  .ant-table.ant-table-small
+  .ant-table-tbody
+  > tr
+  > td {
+  padding: 8px var(--wplus-space-lg);
+}

@@ -1,0 +1,76 @@
+/* ==========================================================================
+ * Modal 对话框 — 组件样式覆盖
+ * 参考规范：ui-spec/components/AntdModal.md
+ * 仅包含 Design Token 无法覆盖的结构/布局样式。
+ * ========================================================================== */
+
+/* ── 容器结构 ──────────────────────────────────────────────────────────── */
+.ant-modal-root .ant-modal {
+  top: 0;
+}
+
+.ant-modal-root .ant-modal-content {
+  overflow: hidden;
+  padding: 0;
+  border-radius: var(--wplus-radius-xs);
+  box-shadow: var(--wplus-shadow-modal);
+}
+
+/* ── Header（标题栏） ──────────────────────────────────────────────────── */
+.ant-modal-root .ant-modal-header {
+  min-height: 56px;
+  margin: 0;
+  padding: var(--wplus-space-lg) var(--wplus-space-xxl);
+  border-bottom: 1px solid var(--wplus-color-split-light);
+  background: var(--wplus-color-bg-container);
+}
+
+.ant-modal-root .ant-modal-title {
+  color: var(--wplus-color-text-heading);
+  font-size: var(--wplus-font-size-lg);
+  font-weight: 600;
+  line-height: var(--wplus-line-height-lg);
+}
+
+.ant-modal-root .ant-modal-close {
+  top: var(--wplus-space-lg);
+  color: var(--wplus-color-text-secondary);
+}
+
+/* ── Body（内容区） ────────────────────────────────────────────────────── */
+.ant-modal-root .ant-modal-body {
+  padding: var(--wplus-space-xxxl) var(--wplus-space-xxl);
+  color: var(--wplus-color-text-body);
+  font-size: var(--wplus-font-size-base);
+  line-height: 1.6;
+}
+
+/* ── Footer（按钮区） ──────────────────────────────────────────────────── */
+.ant-modal-root .ant-modal-footer {
+  min-height: 52px;
+  margin: 0;
+  padding: 10px var(--wplus-space-xxl);
+  border-top: 1px solid var(--wplus-color-split-light);
+}
+
+.ant-modal-root .ant-modal-footer .ant-btn + .ant-btn {
+  margin-inline-start: var(--wplus-space-md);
+}
+
+/* ── 确认对话框 ────────────────────────────────────────────────────────── */
+.ant-modal-root .ant-modal-confirm .ant-modal-content {
+  border-radius: var(--wplus-radius-sm);
+}
+
+.ant-modal-root .ant-modal-confirm .ant-modal-body {
+  padding: var(--wplus-space-xl);
+}
+
+.ant-modal-root .ant-modal-confirm .ant-modal-confirm-title {
+  color: var(--wplus-color-text-heading);
+}
+
+.ant-modal-root .ant-modal-confirm .ant-modal-confirm-body
+  > .anticon.ant-modal-confirm-body-icon {
+  color: var(--wplus-color-warning);
+}

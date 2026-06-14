@@ -4,8 +4,7 @@ import path from 'node:path';
 
 const requiredFiles = [
   'package/src/reset.css',
-  'package/src/theme/css-vars.generated.css',
-  'package/src/theme/component-overrides.generated.css',
+  'package/src/styles/css-variables.css',
 ];
 
 const pnpmCli = process.env.npm_execpath;
@@ -60,17 +59,18 @@ try {
     );
   }
 
-  const componentOverrides = readFileSync(
-    path.resolve('src/theme/component-overrides.generated.css'),
+  // 验证 Modal 分隔线 CSS 规则已从旧文件迁移到组件级 styles.css
+  const modalCss = readFileSync(
+    path.resolve('src/components/modal/styles.css'),
     'utf8',
   );
 
   const requiredModalRules = [
-    'border-bottom: 1px solid rgba(0, 0, 0, 0.12);',
-    'border-top: 1px solid rgba(0, 0, 0, 0.12);',
+    'border-bottom: 1px solid',
+    'border-top: 1px solid',
   ];
 
-  const missingModalRules = requiredModalRules.filter((rule) => !componentOverrides.includes(rule));
+  const missingModalRules = requiredModalRules.filter((rule) => !modalCss.includes(rule));
 
   if (missingModalRules.length > 0) {
     throw new Error(

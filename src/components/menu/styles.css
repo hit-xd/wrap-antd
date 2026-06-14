@@ -1,0 +1,124 @@
+/* ==========================================================================
+ * Menu 导航菜单 — 组件样式覆盖
+ * 参考规范：ui-spec/components/AntdMenu.md
+ * ========================================================================== */
+
+/* ── 顶部导航（深色背景） ──────────────────────────────────────────────── */
+.ant-menu-horizontal {
+  background: var(--wplus-color-nav-top-bg);
+  border-bottom: none;
+}
+
+.ant-menu-horizontal .ant-menu-item {
+  color: var(--wplus-color-nav-top-text);
+  font-weight: 400;
+}
+
+.ant-menu-horizontal .ant-menu-item:hover {
+  color: var(--wplus-color-nav-top-text-selected);
+}
+
+.ant-menu-horizontal .ant-menu-item-selected {
+  color: var(--wplus-color-nav-top-text-selected);
+  font-weight: 700;
+}
+
+.ant-menu-horizontal .ant-menu-item-selected::after {
+  border-bottom: 2px solid var(--wplus-color-nav-top-text-selected);
+}
+
+/* 移除默认 Ant Design 蓝色 hover/active/selected */
+.ant-menu-horizontal .ant-menu-item::after {
+  transition: none;
+}
+
+.ant-menu-horizontal .ant-menu-submenu-title {
+  color: var(--wplus-color-nav-top-text);
+}
+
+.ant-menu-horizontal .ant-menu-submenu-title:hover {
+  color: var(--wplus-color-nav-top-text-selected);
+}
+
+.ant-menu-horizontal .ant-menu-submenu-selected
+  > .ant-menu-submenu-title {
+  color: var(--wplus-color-nav-top-text-selected);
+}
+
+/* ── 侧边导航（浅色背景，内联模式） ────────────────────────────────────── */
+.ant-menu-inline {
+  width: var(--wplus-sidebar-width);
+  background: var(--wplus-color-bg-container);
+}
+
+.ant-menu-inline .ant-menu-item {
+  height: 40px;
+  line-height: 40px;
+  margin: 0;
+  border-radius: 0;
+  color: var(--wplus-color-nav-side-text);
+  font-size: var(--wplus-font-size-base);
+}
+
+.ant-menu-inline .ant-menu-item:hover {
+  color: var(--wplus-color-nav-side-text-hover);
+  background: var(--wplus-color-bg-container);
+}
+
+.ant-menu-inline .ant-menu-item-selected {
+  color: var(--wplus-color-nav-side-text-selected);
+  background: var(--wplus-color-nav-side-bg-selected);
+  font-weight: 700;
+}
+
+/* 选中态右侧指示线 */
+.ant-menu-inline .ant-menu-item-selected::after {
+  border-right: 2px solid var(--wplus-color-nav-side-indicator);
+}
+
+/* 移除 inline 默认蓝色选中 */
+.ant-menu-inline .ant-menu-item-active {
+  color: var(--wplus-color-nav-side-text-hover);
+  background: var(--wplus-color-bg-container);
+}
+
+/* 子菜单项 */
+.ant-menu-inline .ant-menu-submenu-title {
+  height: 40px;
+  line-height: 40px;
+  margin: 0;
+  color: var(--wplus-color-nav-side-text);
+  font-size: var(--wplus-font-size-base);
+}
+
+.ant-menu-inline .ant-menu-submenu-title:hover {
+  color: var(--wplus-color-nav-side-text-hover);
+}
+
+.ant-menu-inline
+  .ant-menu-submenu-selected
+  > .ant-menu-submenu-title {
+  color: var(--wplus-color-nav-side-text-selected);
+}
+
+/* ── 深色主题菜单（侧边栏深色） ────────────────────────────────────────── */
+.ant-menu-dark {
+  background: transparent;
+}
+
+.ant-menu-dark .ant-menu-item {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.ant-menu-dark .ant-menu-item:hover,
+.ant-menu-dark .ant-menu-item-selected {
+  color: var(--wplus-color-text-inverse);
+}
+
+.ant-menu-dark .ant-menu-submenu-title {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.ant-menu-dark .ant-menu-submenu-title:hover {
+  color: var(--wplus-color-text-inverse);
+}

@@ -1,0 +1,26 @@
+/* ==========================================================================
+ * Breadcrumb 面包屑 — 组件样式覆盖
+ * 参考规范：ui-spec/components/AntdBreadcrumb.md
+ * ========================================================================== */
+
+/* ── 分隔符间距 ────────────────────────────────────────────────────────── */
+.ant-breadcrumb .ant-breadcrumb-separator {
+  margin-inline: var(--wplus-space-sm);
+  color: var(--wplus-color-text-secondary);
+}
+
+/* ── 链接色 ────────────────────────────────────────────────────────────── */
+.ant-breadcrumb a {
+  color: var(--wplus-color-text-secondary);
+}
+
+.ant-breadcrumb a:hover {
+  color: var(--wplus-color-text-heading);
+  background: transparent;
+}
+
+/* ── 当前项 ────────────────────────────────────────────────────────────── */
+.ant-breadcrumb .ant-breadcrumb-link,
+.ant-breadcrumb span:last-child {
+  color: var(--wplus-color-text-heading);
+}

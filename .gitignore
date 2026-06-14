@@ -38,3 +38,4 @@ Thumbs.db
 .dumi/tsconfig.json
 .pack-check
 *.tgz
+.workbuddy

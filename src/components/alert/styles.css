@@ -1,0 +1,48 @@
+/* ==========================================================================
+ * Alert 警告提示 — 组件样式覆盖
+ * 参考规范：ui-spec/components/AntdAlert.md
+ * ========================================================================== */
+
+/* ── 基础样式 ──────────────────────────────────────────────────────────── */
+.ant-alert {
+  border-radius: var(--wplus-radius-xs);
+}
+
+/* ── 状态背景色 / 边框色精调 ──────────────────────────────────────────── */
+.ant-alert-success {
+  background: #e6fff1;
+  border-color: var(--wplus-color-success);
+}
+
+.ant-alert-info {
+  background: #e6f4ff;
+  border-color: var(--wplus-color-info);
+}
+
+.ant-alert-warning {
+  background: #fffae6;
+  border-color: var(--wplus-color-warning);
+}
+
+.ant-alert-error {
+  background: var(--wplus-color-bg-error);
+  border-color: var(--wplus-color-error);
+}
+
+/* ── 标题与正文 ────────────────────────────────────────────────────────── */
+.ant-alert-message {
+  color: var(--wplus-color-text-heading);
+}
+
+.ant-alert-description {
+  color: var(--wplus-color-text-body);
+}
+
+/* ── 关闭按钮 ──────────────────────────────────────────────────────────── */
+.ant-alert-close-icon {
+  color: var(--wplus-color-text-secondary);
+}
+
+.ant-alert-close-icon:hover {
+  color: var(--wplus-color-text-heading);
+}

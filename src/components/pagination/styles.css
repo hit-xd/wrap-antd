@@ -1,0 +1,22 @@
+/* ==========================================================================
+ * Pagination 分页 — 组件样式覆盖
+ * 参考规范：ui-spec/components/AntdPagination.md
+ * ========================================================================== */
+
+/* ── 激活态 ────────────────────────────────────────────────────────────── */
+.ant-pagination .ant-pagination-item-active {
+  border-color: var(--wplus-color-button-primary);
+}
+
+.ant-pagination .ant-pagination-item-active a {
+  color: var(--wplus-color-button-primary);
+}
+
+/* ── hover 态 ──────────────────────────────────────────────────────────── */
+.ant-pagination .ant-pagination-item:hover {
+  border-color: var(--wplus-color-button-primary);
+}
+
+.ant-pagination .ant-pagination-item:hover a {
+  color: var(--wplus-color-button-primary);
+}
