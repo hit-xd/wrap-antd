@@ -1,12 +1,23 @@
 ---
 title: ErrorBlock 空状态
+order: 200
 ---
 
 # ErrorBlock 空状态
 
 用于列表、表格、日历和业务区块的空状态反馈，统一空态图形、文案层级和操作入口。
 
-## 基础示例
+## 组件类型
+
+- 默认空态
+- 表格空态
+- 日历空态
+- 业务空态
+- 自定义操作
+
+## 基础空态
+
+适合列表、详情模块或卡片内容为空时使用。
 
 ```tsx
 import { ConfigProvider, ErrorBlock } from 'privatebank-design';
@@ -22,7 +33,9 @@ export default () => (
 );
 ```
 
-## 状态示例
+## 场景类型
+
+通过 variant 区分表格、日历和业务区块的空态语义。
 
 ```tsx
 import { ConfigProvider, ErrorBlock, Space } from 'privatebank-design';
@@ -38,14 +51,43 @@ export default () => (
 );
 ```
 
-## API
+## 表格空数据
 
-| 参数        | 说明       | 类型                                               | 默认值      |
-| ----------- | ---------- | -------------------------------------------------- | ----------- |
-| variant     | 空状态场景 | `'default' \| 'table' \| 'calendar' \| 'business'` | `'default'` |
-| title       | 标题       | `ReactNode`                                        | 按场景内置  |
-| description | 辅助说明   | `ReactNode`                                        | -           |
-| icon        | 自定义图形 | `ReactNode`                                        | -           |
-| action      | 操作区     | `ReactNode`                                        | -           |
-| className   | 自定义类名 | `string`                                           | -           |
-| style       | 自定义样式 | `CSSProperties`                                    | -           |
+与 Table 的 emptyText 组合，统一表格无数据反馈。
+
+```tsx
+import { ConfigProvider, ErrorBlock, Table } from 'privatebank-design';
+
+export default () => (
+  <ConfigProvider>
+    <Table
+      columns={[{ title: '客户名称', dataIndex: 'name' }]}
+      dataSource={[]}
+      pagination={false}
+      locale={{
+        emptyText: (
+          <ErrorBlock variant="table" title="暂无客户" description="没有匹配的客户记录。" />
+        ),
+      }}
+    />
+  </ConfigProvider>
+);
+```
+
+## 类型导入
+
+组件 Props 类型可直接从包入口导入。
+
+```tsx | pure
+import type { ErrorBlockProps } from 'privatebank-design';
+```
+
+## API 与类型
+
+组件 Props 可直接从 `privatebank-design` 导入：
+
+```tsx | pure
+import type { ErrorBlockProps } from 'privatebank-design';
+```
+
+业务代码应优先使用公开 Props，不依赖内部 DOM 结构。

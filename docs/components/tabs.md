@@ -1,6 +1,6 @@
 ---
 title: Tabs 标签页
-order: 135
+order: 138
 ---
 
 # Tabs 标签页
@@ -17,6 +17,8 @@ order: 135
 - 禁用状态
 
 ## 基础用法
+
+最小可用示例，适合快速确认组件默认样式和主题效果。
 
 ```tsx
 import { ConfigProvider, Tabs, Space } from 'privatebank-design';
@@ -35,6 +37,8 @@ export default () => (
 
 ## 常用类型与状态
 
+展示业务里最常见的类型、状态或组合形态。
+
 ```tsx
 import { ConfigProvider, Tabs, Space } from 'privatebank-design';
 
@@ -50,6 +54,82 @@ export default () => (
     />
   </ConfigProvider>
 );
+```
+
+## 业务卡片场景
+
+放入企业后台常见的信息卡片，检查与周边内容的间距和层级。
+
+```tsx
+import { ConfigProvider, Tabs, Space, Card, Typography } from 'privatebank-design';
+
+export default () => (
+  <ConfigProvider>
+    <Card title="客户经营概览" style={{ maxWidth: 520 }}>
+      <Space direction="vertical" size={16} style={{ width: '100%' }}>
+        <Tabs
+          items={[
+            { key: '1', label: '客户概览', children: '客户概览内容' },
+            { key: '2', label: '资产持仓', children: '资产持仓内容' },
+          ]}
+        />
+        <Typography.Text type="secondary">用于承载客户、审批、资产等业务信息。</Typography.Text>
+      </Space>
+    </Card>
+  </ConfigProvider>
+);
+```
+
+## 紧凑布局
+
+在较窄容器内使用组件，验证密集页面和弹窗内容区的表现。
+
+```tsx
+import { ConfigProvider, Tabs, Space, Card } from 'privatebank-design';
+
+export default () => (
+  <ConfigProvider>
+    <Card size="small" title="紧凑信息区" style={{ width: 360 }}>
+      <Tabs
+        type="card"
+        items={[
+          { key: '1', label: '待处理', children: '待处理任务' },
+          { key: '2', label: '已完成', children: '已完成任务' },
+          { key: '3', label: '已关闭', disabled: true, children: '' },
+        ]}
+      />
+    </Card>
+  </ConfigProvider>
+);
+```
+
+## 页面导航区
+
+放入页面顶部或内容导航区域，验证导航组件在业务页面中的层级。
+
+```tsx
+import { ConfigProvider, Tabs, Space, Card } from 'privatebank-design';
+
+export default () => (
+  <ConfigProvider>
+    <Card title="页面导航" style={{ maxWidth: 640 }}>
+      <Tabs
+        items={[
+          { key: '1', label: '客户概览', children: '客户概览内容' },
+          { key: '2', label: '资产持仓', children: '资产持仓内容' },
+        ]}
+      />
+    </Card>
+  </ConfigProvider>
+);
+```
+
+## 类型导入
+
+组件 Props 类型可直接从包入口导入，方便业务代码保持 antd 兼容写法。
+
+```tsx | pure
+import type { TabsProps } from 'privatebank-design';
 ```
 
 ## API 与类型

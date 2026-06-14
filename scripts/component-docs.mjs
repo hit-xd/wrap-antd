@@ -468,7 +468,7 @@ export const componentDocs = [
 
 const renderVariants = (variants) => variants.map((item) => `- ${item}`).join('\n');
 
-export const renderComponentDoc = (doc, order) => {
+export const renderComponentDocLegacy = (doc, order) => {
   const imports = doc.imports ?? [doc.name, 'Space'];
   const propsType = doc.typeName ?? `${doc.name}Props`;
   const extraImports = doc.extraImports ? `${doc.extraImports}\n` : '';

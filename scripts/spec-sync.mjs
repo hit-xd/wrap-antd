@@ -2,7 +2,13 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import prettier from 'prettier';
-import { componentDocs, renderComponentDoc } from './component-docs.mjs';
+import {
+  businessDocs,
+  componentDocs,
+  configProviderDoc,
+  renderComponentDoc,
+  renderStandaloneDoc,
+} from './docs-generator.mjs';
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const specDir = path.join(rootDir, 'ui-spec');
@@ -319,6 +325,101 @@ const tokens = {
   },
 };
 
+const themeTokenDir = path.join(rootDir, 'src', 'theme', 'tokens');
+const readThemeToken = (file) => readFileSync(path.join(themeTokenDir, file), 'utf8');
+
+const themeSource = {
+  primitive: readThemeToken('primitive-tokens.ts'),
+  semantic: readThemeToken('semantic-tokens.ts'),
+  antd: readThemeToken('antd-tokens.ts'),
+  antdComponent: readThemeToken('antd-component-tokens.ts'),
+  wplusComponent: readThemeToken('wplus-component-tokens.ts'),
+};
+
+const themeSourceText = Object.values(themeSource).join('\n');
+const rawConstValues = Object.fromEntries(
+  matchAll(themeSourceText, /export const ([A-Z][A-Z0-9_]*)\s*=\s*([^;\n]+);/g, (m) => [
+    m[1],
+    m[2].trim(),
+  ]),
+);
+
+const themeConstValues = {};
+const resolveThemeValue = (value) => {
+  const normalized = String(value).trim();
+  if (/^'.*'$/.test(normalized)) return normalized.slice(1, -1);
+  if (/^\d+(?:\.\d+)?$/.test(normalized)) return Number(normalized);
+  return themeConstValues[normalized] ?? rawConstValues[normalized] ?? normalized;
+};
+
+for (let index = 0; index < 4; index += 1) {
+  for (const [name, value] of Object.entries(rawConstValues)) {
+    themeConstValues[name] = resolveThemeValue(value);
+  }
+}
+
+const blockContent = (source, name) =>
+  firstMatch(source, new RegExp(`export const ${name}[^=]*=\\s*([\\s\\S]*?)\\s*] as const;`));
+
+const sourceBrandEntries = matchAll(
+  themeSource.primitive,
+  /export const BRAND_(\d+)\s*=\s*'([^']+)'/g,
+  (m) => [Number(m[1]), m[2]],
+).sort(([a], [b]) => a - b);
+
+const sourceDataColors = matchAll(blockContent(themeSource.primitive, 'DATA_COLORS'), /'([^']+)'/g, (m) => m[1]);
+const sourceGradientEntries = matchAll(
+  firstMatch(themeSource.primitive, /export const GRADIENTS\s*=\s*({[\s\S]*?}) as const;/),
+  /(\w+):\s*'([^']+)'/g,
+  (m) => [m[1], m[2]],
+);
+const sourceRadiusEntries = matchAll(
+  blockContent(themeSource.primitive, 'RADIUS_TOKENS'),
+  /key:\s*'([^']+)'[\s\S]*?radius:\s*'([^']+)'/g,
+  (m) => [m[1], m[2]],
+);
+const sourceShadowEntries = matchAll(
+  blockContent(themeSource.primitive, 'SHADOW_TOKENS'),
+  /key:\s*'([^']+)'[\s\S]*?boxShadow:\s*([^,\n]+)/g,
+  (m) => [m[1], resolveThemeValue(m[2])],
+);
+const sourceSpacingEntries = matchAll(
+  firstMatch(themeSource.primitive, /export const wplusSpacing\s*=\s*({[\s\S]*?}) as const;/),
+  /(\w+):\s*(\d+)/g,
+  (m) => [m[1], Number(m[2])],
+);
+const sourceTypographyEntries = matchAll(
+  blockContent(themeSource.primitive, 'TYPOGRAPHY_TOKENS'),
+  /key:\s*'([^']+)'[\s\S]*?label:\s*'([^']+)'[\s\S]*?fontSize:\s*([^,\n]+)[\s\S]*?lineHeight:\s*([^,\n]+)[\s\S]*?fontWeight:\s*([^,\n]+)/g,
+  (m) => [
+    m[1],
+    {
+      label: m[2],
+      fontSize: resolveThemeValue(m[3]),
+      lineHeight: resolveThemeValue(m[4]),
+      fontWeight: resolveThemeValue(m[5]),
+    },
+  ],
+);
+const sourceAntdTokenEntries = matchAll(
+  firstMatch(themeSource.antd, /export const antdTokens\s*=\s*({[\s\S]*?})\s*as const;/),
+  /^\s{4}([a-zA-Z]\w+):\s*([^,\n]+)/gm,
+  (m) => [m[1], resolveThemeValue(m[2])],
+);
+
+const sourceTheme = {
+  brand: Object.fromEntries(sourceBrandEntries),
+  dataColors: sourceDataColors,
+  gradients: Object.fromEntries(sourceGradientEntries),
+  radius: Object.fromEntries(sourceRadiusEntries),
+  shadows: Object.fromEntries(sourceShadowEntries),
+  spacing: Object.fromEntries(sourceSpacingEntries),
+  typography: Object.fromEntries(sourceTypographyEntries),
+  antdTokens: Object.fromEntries(sourceAntdTokenEntries),
+  componentTokenCount: matchAll(themeSource.antdComponent, /^\s{4}[A-Z]\w+:\s*{/gm).length,
+  wplusComponentTokenCount: matchAll(themeSource.wplusComponent, /^\s{2}[a-zA-Z]\w+:\s*{/gm).length,
+};
+
 const componentNames = [
   'Button',
   'Form',
@@ -411,17 +512,47 @@ const componentTypeNames = [
 
 const toSlug = (name) => name.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
 
+const sidebarItem = (title, link) => ({ title, link });
+const primaryComponentNames = ['ConfigProvider', 'Button', 'Form', 'Table'];
 const componentCategories = ['数据录入', '数据展示', '反馈', '导航'];
+const primaryComponentSidebar = {
+  title: '基础能力',
+  children: primaryComponentNames.map((name) =>
+    sidebarItem(
+      componentDocs.find((doc) => doc.name === name)?.title ?? name,
+      `/components/${toSlug(name)}`,
+    ),
+  ),
+};
 
-const componentSidebar = componentCategories.map((category) => ({
-  title: category,
-  children: componentDocs
-    .filter((doc) => doc.category === category)
-    .map((doc) => ({
-      title: doc.title,
-      link: `/components/${toSlug(doc.name)}`,
-    })),
-}));
+const generatedComponentSidebar = componentCategories
+  .map((category) => ({
+    title: category,
+    children: componentDocs
+      .filter((doc) => doc.category === category)
+      .map((doc) => sidebarItem(doc.title, `/components/${toSlug(doc.name)}`)),
+  }))
+  .filter((group) => group.children.length);
+
+const ComponentSidebar = [primaryComponentSidebar, ...generatedComponentSidebar];
+const BusinessSidebar = [
+  {
+    title: '业务沉淀',
+    children: businessDocs.map((doc) =>
+      sidebarItem(doc.title, `/${doc.path.replace(/^docs\//, '').replace(/\.md$/, '')}`),
+    ),
+  },
+];
+const GeneratedSidebar = [
+  {
+    title: '设计规范',
+    children: [
+      sidebarItem('组件总览', '/generated/components'),
+      sidebarItem('设计 Token', '/generated/design-tokens'),
+      sidebarItem('解析报告', '/generated/spec-report'),
+    ],
+  },
+];
 
 if (brandEntries.length < 10) lowConfidence.push('Color.style.md: 品牌色少于 10 项。');
 if (dataColors.length < 10) lowConfidence.push('Color.style.md: 数据色少于 10 项。');
@@ -441,13 +572,22 @@ await addFile(
 );
 
 await addFile(
-  'src/components/generated/sidebar.generated.ts',
-  `${fileHeader}export const generatedComponentSidebar = ${toTs(componentSidebar)};\n`,
+  'dumi.sidebar.ts',
+  `${fileHeader}export const ComponentSidebar = ${toTs(ComponentSidebar)};
+export const BusinessSidebar = ${toTs(BusinessSidebar)};
+export const GeneratedSidebar = ${toTs(GeneratedSidebar)};
+`,
 );
 
 for (const [index, doc] of componentDocs.entries()) {
   await addFile(`docs/components/${toSlug(doc.name)}.md`, renderComponentDoc(doc, 100 + index));
 }
+
+for (const [index, doc] of businessDocs.entries()) {
+  await addFile(doc.path, renderStandaloneDoc(doc, 200 + index));
+}
+
+await addFile(configProviderDoc.path, renderStandaloneDoc(configProviderDoc, 1));
 
 await addFile(
   'docs/generated/design-tokens.md',
@@ -483,6 +623,197 @@ await addFile(
 await addFile(
   'docs/theme.md',
   `---\ntitle: 主题定制\norder: 2\n---\n\n# 主题定制\n\n\`privatebank-design\` 通过 \`enterpriseTheme\` 统一维护企业 token，并在包装版 \`ConfigProvider\` 中默认合并。\n\n当前主题已从新版 \`ui-spec/\` 提取以下设计规范：\n\n| 规范目录                                       | 落地方式                               |\n| ---------------------------------------------- | -------------------------------------- |\n| \`全局规范/Color.style.md\`                      | 品牌色、中性色、功能色、数据色、渐变色 |\n| \`全局规范/Container.style.md\`                  | 圆角、阴影、容器边框与背景             |\n| \`全局规范/AntdSpace.md\`                        | 4px 间距体系、12 列栅格、Space 预设    |\n| \`全局规范/Typography.style.md\`                 | 字体族、字号、行高、字重               |\n| \`全局规范/AntdLayout.md\`                       | Header、Sider、内容区、导航尺寸 token  |\n| \`全局规范/ImageRatio.style.md\`                 | 常用图片比例 token 与 CSS 变量         |\n| \`数据录入/\`、\`样式规范/\`、\`反馈/\`、\`导航组件/\` | 可稳定映射的组件级 antd 主题 token     |\n\n## 内置 token\n\n\`\`\`tsx\nimport { Button, ConfigProvider, globalDesignTokens } from 'privatebank-design';\n\nexport default () => (\n  <ConfigProvider>\n    <Button type="primary">{globalDesignTokens.color.brand[7]}</Button>\n  </ConfigProvider>\n);\n\`\`\`\n\n## 覆盖主题\n\n\`\`\`tsx\nimport { Button, ConfigProvider, createEnterpriseTheme } from 'privatebank-design';\n\nconst theme = createEnterpriseTheme({\n  primaryColor: '#0052d9',\n  borderRadius: 6,\n});\n\nexport default () => (\n  <ConfigProvider theme={theme}>\n    <Button type="primary">企业主按钮</Button>\n  </ConfigProvider>\n);\n\`\`\`\n\n组件级细节优先通过 antd token 落地；无法稳定映射的交互、热区和组合布局保留在规范文档中，后续通过包装组件或业务组件沉淀。\n\n## CSS 变量\n\n引入 \`privatebank-design/reset.css\` 后可使用基础 CSS 变量：\n\n\`\`\`css\n.page {\n  background: var(--wplus-color-bg-page);\n  padding: var(--wplus-layout-content-padding);\n}\n\n.cover {\n  aspect-ratio: var(--wplus-image-ratio-widescreen);\n  border-radius: var(--wplus-radius-md);\n}\n\`\`\`\n`,
+);
+
+await addFile(
+  'docs/generated/design-tokens.md',
+  `---
+title: 设计 Token
+order: 100
+---
+
+# 设计 Token
+
+本页由 \`pnpm spec:sync\` 根据 \`src/theme/\` 自动生成。
+
+## 品牌色
+
+| Token | Value |
+| --- | --- |
+${Object.entries(sourceTheme.brand)
+  .map(([key, value]) => `| Brand ${key} | \`${value}\` |`)
+  .join('\n')}
+
+## 数据色
+
+| Index | Value |
+| --- | --- |
+${sourceTheme.dataColors.map((value, index) => `| ${index + 1} | \`${value}\` |`).join('\n')}
+
+## 渐变色
+
+| Token | Value |
+| --- | --- |
+${Object.entries(sourceTheme.gradients)
+  .map(([key, value]) => `| ${key} | \`${value}\` |`)
+  .join('\n')}
+
+## 圆角
+
+| Token | Value |
+| --- | --- |
+${Object.entries(sourceTheme.radius)
+  .map(([key, value]) => `| ${key} | \`${value}\` |`)
+  .join('\n')}
+
+## 阴影
+
+| Token | Value |
+| --- | --- |
+${Object.entries(sourceTheme.shadows)
+  .map(([key, value]) => `| ${key} | \`${value}\` |`)
+  .join('\n')}
+
+## Ant Design 全局 Token
+
+| Token | Value |
+| --- | --- |
+${Object.entries(sourceTheme.antdTokens)
+  .slice(0, 24)
+  .map(([key, value]) => `| ${key} | \`${value}\` |`)
+  .join('\n')}
+`,
+);
+
+await addFile(
+  'docs/generated/components.md',
+  `---
+title: 自动生成组件
+order: 110
+---
+
+# 自动生成组件
+
+以下组件文档由 \`pnpm spec:sync\` 自动生成，示例统一从 \`privatebank-design\` 导入，API 与 Ant Design v5 保持兼容。
+
+| 组件 | 用法 |
+| --- | --- |
+${componentNames.map((name) => `| ${name} | \`import { ${name} } from 'privatebank-design'\` |`).join('\n')}
+`,
+);
+
+await addFile(
+  'docs/generated/spec-report.md',
+  `---
+title: 解析报告
+order: 120
+---
+
+# 解析报告
+
+本页由 \`pnpm spec:sync\` 自动生成，用于检查源码 token 与文档生成结果。
+
+## 已识别
+
+- 主题来源：\`src/theme/\`
+- 品牌色：${Object.keys(sourceTheme.brand).length} 项
+- 数据色：${sourceTheme.dataColors.length} 项
+- 渐变色：${Object.keys(sourceTheme.gradients).length} 项
+- 圆角 token：${Object.keys(sourceTheme.radius).length} 项
+- 阴影 token：${Object.keys(sourceTheme.shadows).length} 项
+- 间距 token：${Object.keys(sourceTheme.spacing).length} 项
+- 字体层级：${Object.keys(sourceTheme.typography).length} 项
+- antd 全局 token：${Object.keys(sourceTheme.antdTokens).length} 项
+- antd 组件 token 分组：${sourceTheme.componentTokenCount} 项
+- W+ 组件 token 分组：${sourceTheme.wplusComponentTokenCount} 项
+- 自动导出组件：${componentNames.length} 个
+- 独立组件文档：${componentDocs.length + businessDocs.length + 1} 个
+
+## 低置信度项
+
+${lowConfidence.length ? lowConfidence.map((item) => `- ${item}`).join('\n') : '- 无'}
+
+## 处理原则
+
+- 文档中的设计 Token 以 \`src/theme/tokens\` 为准。
+- antd 可表达的样式进入 \`wplusTheme\`、\`antdTokens\` 和 \`antdComponentTokens\`。
+- 复杂布局和业务语义通过包装组件、业务组件和文档示例沉淀。
+`,
+);
+
+await addFile(
+  'docs/theme.md',
+  `---
+title: 主题定制
+order: 2
+---
+
+# 主题定制
+
+\`privatebank-design\` 通过 \`wplusTheme\` 统一维护企业主题，并在包装版 \`ConfigProvider\` 中默认合并。
+
+当前主题从 \`src/theme/\` 解析生成，核心来源如下：
+
+| 源码文件 | 落地方式 |
+| --- | --- |
+| \`src/theme/tokens/primitive-tokens.ts\` | 品牌色、数据色、渐变、圆角、阴影、间距和字体层级 |
+| \`src/theme/tokens/semantic-tokens.ts\` | 业务语义色、文字色、背景色、边框色 |
+| \`src/theme/tokens/antd-tokens.ts\` | Ant Design 全局 token |
+| \`src/theme/tokens/antd-component-tokens.ts\` | Ant Design 组件级 token |
+| \`src/theme/tokens/wplus-component-tokens.ts\` | W+ 组件语义 token |
+
+## 内置 token
+
+\`\`\`tsx
+import { BRAND_COLORS, Button, ConfigProvider } from 'privatebank-design';
+
+export default () => (
+  <ConfigProvider>
+    <Button type="primary">{BRAND_COLORS.brand7}</Button>
+  </ConfigProvider>
+);
+\`\`\`
+
+## 覆盖主题
+
+\`\`\`tsx
+import { Button, ConfigProvider } from 'privatebank-design';
+
+export default () => (
+  <ConfigProvider theme={{ token: { colorPrimary: '#0052d9', borderRadius: 6 } }}>
+    <Button type="primary">企业主按钮</Button>
+  </ConfigProvider>
+);
+\`\`\`
+
+## 复用完整主题
+
+\`\`\`tsx
+import { Button, ConfigProvider, wplusTheme } from 'privatebank-design';
+
+export default () => (
+  <ConfigProvider theme={wplusTheme}>
+    <Button type="primary">W+ 主题按钮</Button>
+  </ConfigProvider>
+);
+\`\`\`
+
+## CSS 变量
+
+引入 \`privatebank-design/reset.css\` 后可使用基础 CSS 变量：
+
+\`\`\`css
+.page {
+  background: var(--wplus-color-bg-page);
+  padding: var(--wplus-layout-content-padding);
+}
+
+.cover {
+  aspect-ratio: var(--wplus-image-ratio-widescreen);
+  border-radius: var(--wplus-radius-md);
+}
+\`\`\`
+`,
 );
 
 const writeOrCheck = () => {
