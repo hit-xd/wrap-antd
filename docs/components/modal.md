@@ -72,7 +72,7 @@ export default () => (
 放入企业后台常见的信息卡片，检查与周边内容的间距和层级。
 
 ```tsx
-import { ConfigProvider, Modal, Button, Card, Typography } from 'privatebank-design';
+import { ConfigProvider, Modal, Button, Space, Card, Typography } from 'privatebank-design';
 import { useState } from 'react';
 
 export default () => (

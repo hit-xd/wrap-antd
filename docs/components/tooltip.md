@@ -37,7 +37,7 @@ export default () => (
 展示业务里最常见的类型、状态或组合形态。
 
 ```tsx
-import { ConfigProvider, Tooltip, Button } from 'privatebank-design';
+import { ConfigProvider, Tooltip, Button, Space } from 'privatebank-design';
 
 export default () => (
   <ConfigProvider>
@@ -58,7 +58,7 @@ export default () => (
 放入企业后台常见的信息卡片，检查与周边内容的间距和层级。
 
 ```tsx
-import { ConfigProvider, Tooltip, Button, Card, Typography } from 'privatebank-design';
+import { ConfigProvider, Tooltip, Button, Card, Space, Typography } from 'privatebank-design';
 
 export default () => (
   <ConfigProvider>
@@ -79,7 +79,7 @@ export default () => (
 在较窄容器内使用组件，验证密集页面和弹窗内容区的表现。
 
 ```tsx
-import { ConfigProvider, Tooltip, Button, Card } from 'privatebank-design';
+import { ConfigProvider, Tooltip, Space, Button, Card } from 'privatebank-design';
 
 export default () => (
   <ConfigProvider>
@@ -102,7 +102,7 @@ export default () => (
 在列表或详情内容区中使用组件，适合检查只读信息展示场景。
 
 ```tsx
-import { ConfigProvider, Tooltip, Button, List } from 'privatebank-design';
+import { ConfigProvider, Tooltip, Space, Button, List } from 'privatebank-design';
 
 export default () => (
   <ConfigProvider>

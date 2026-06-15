@@ -53,7 +53,7 @@ export default () => (
 放入企业后台常见的信息卡片，检查与周边内容的间距和层级。
 
 ```tsx
-import { ConfigProvider, Popconfirm, Button, Card, Typography } from 'privatebank-design';
+import { ConfigProvider, Popconfirm, Button, Card, Space, Typography } from 'privatebank-design';
 
 export default () => (
   <ConfigProvider>

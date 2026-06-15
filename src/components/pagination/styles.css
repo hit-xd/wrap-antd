@@ -3,6 +3,11 @@
  * 参考规范：ui-spec/components/AntdPagination.md
  * ========================================================================== */
 
+/* ── 页码靠右 ──────────────────────────────────────────────────────────── */
+.ant-pagination {
+  justify-content: flex-end;
+}
+
 /* ── 激活态 ────────────────────────────────────────────────────────────── */
 .ant-pagination .ant-pagination-item-active {
   border-color: var(--wplus-color-button-primary);

@@ -72,7 +72,7 @@ export default () => (
 放入企业后台常见的信息卡片，检查与周边内容的间距和层级。
 
 ```tsx
-import { ConfigProvider, Tour, Button, Card, Typography } from 'privatebank-design';
+import { ConfigProvider, Tour, Button, Space, Card, Typography } from 'privatebank-design';
 import { useRef, useState } from 'react';
 
 export default () => (
@@ -130,7 +130,7 @@ export default () => (
 在列表或详情内容区中使用组件，适合检查只读信息展示场景。
 
 ```tsx
-import { ConfigProvider, Tour, Button, List } from 'privatebank-design';
+import { ConfigProvider, Tour, Button, Space, List } from 'privatebank-design';
 import { useRef, useState } from 'react';
 
 export default () => (

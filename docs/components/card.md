@@ -58,7 +58,7 @@ export default () => (
 放入企业后台常见的信息卡片，检查与周边内容的间距和层级。
 
 ```tsx
-import { ConfigProvider, Card, Button, Typography } from 'privatebank-design';
+import { ConfigProvider, Card, Button, Space, Typography } from 'privatebank-design';
 
 export default () => (
   <ConfigProvider>
@@ -102,7 +102,7 @@ export default () => (
 在列表或详情内容区中使用组件，适合检查只读信息展示场景。
 
 ```tsx
-import { ConfigProvider, Card, Button, List } from 'privatebank-design';
+import { ConfigProvider, Card, Button, Space, List } from 'privatebank-design';
 
 export default () => (
   <ConfigProvider>
